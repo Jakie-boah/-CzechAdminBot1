@@ -14,6 +14,7 @@ async def ban(message: Message):
     if message.reply_to_message:
         try:
             condition = message.text.split()[1]
+            await message.reply('Начинаю бан')
             await mute_mode.mute_for_sometime(message.chat.id, message.from_user.id, condition)
             await message.reply(_(f'{message.from_user.full_name} забанен\n\nБан на {condition}'))
         except IndexError:

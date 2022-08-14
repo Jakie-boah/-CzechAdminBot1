@@ -1,9 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from i18.Localization import _
-
-
-CHAT_LIST = ['Чат 1', 'Чат 2', 'Чат 3']
-
+from Database.Database import Database
+#
+# CHAT_LIST = Database().get_chats()
 CHOSEN_CHAT = []
 
 
@@ -18,7 +17,7 @@ class InlineButtons:
     def chat_list(self):
         c = 0
         markup = InlineKeyboardMarkup(row_width=1)
-        for i in CHAT_LIST:
+        for i in Database().get_chats():
             markup.add(InlineKeyboardButton(i, callback_data=f'chat{c}'))
             c += 1
         confirm = InlineKeyboardButton((_('Подтвердить')), callback_data='confirm')
@@ -27,20 +26,20 @@ class InlineButtons:
 
     def edit(self, number):
         c = 0
-        for i in CHAT_LIST:
+        for i in Database().get_chats():
             if c == number:
-                cur = CHAT_LIST[number]
+                cur = Database().get_chats()[number]
                 if cur.split()[0] == '✅':
                     pass
                 else:
-                    CHAT_LIST[number] = '✅ ' + cur
-                    CHOSEN_CHAT.append(CHAT_LIST[number])
+                    Database().get_chats()[number] = '✅ ' + cur
+                    CHOSEN_CHAT.append(Database().get_chats()[number])
             c += 1
 
     def new_inline(self):
         markup = InlineKeyboardMarkup(row_width=1)
         c = 0
-        for k in CHAT_LIST:
+        for k in Database().get_chats():
 
             if k.split()[0] == '✅':
                 markup.add(InlineKeyboardButton(k, callback_data=f'chosen_chat{c}'))
@@ -77,3 +76,9 @@ class InlineButtons:
         markup.add(pay, cancel)
         return markup
 
+    def add_chat(self):
+        markup = InlineKeyboardMarkup(row_width=1)
+        add = InlineKeyboardButton((_('Добавить')), url='https://t.me/A_not_herBot_bot?startgroup=c', callback_data='pay')
+        markup.add(add)
+        return markup
+# https://t.me/all2all_bot?startgroup=c

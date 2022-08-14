@@ -10,15 +10,15 @@ class MuteModerator:
         for i in time:
             TIME.append(i)
             if i == 'd':
-                time_from_now = datetime.now() + timedelta(days=TIME[0])
+                time_from_now = datetime.now() + timedelta(days=int(TIME[0]))
                 await bot.ban_chat_member(chat_id, user_id, '{:%H:%M:%S}'.format(time_from_now))
 
             elif i == 'h':
-                time_from_now = datetime.now() + timedelta(hours=TIME[0])
+                time_from_now = datetime.now() + timedelta(hours=int(TIME[0]))
                 await bot.ban_chat_member(chat_id, user_id, '{:%H:%M:%S}'.format(time_from_now))
 
             elif i == 'm':
-                time_from_now = datetime.now() + timedelta(minutes=TIME[0])
+                time_from_now = datetime.now() + timedelta(minutes=int(TIME[0]))
                 await bot.ban_chat_member(chat_id, user_id, '{:%H:%M:%S}'.format(time_from_now))
 
             elif i == 'forever':

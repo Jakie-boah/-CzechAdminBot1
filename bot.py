@@ -2,7 +2,7 @@ from aiogram.types import Message, CallbackQuery
 from handlers.mute_config import MuteModerator
 from i18.Localization import _
 from filters.filters import SuperAdmin, is_permitted
-from config import dp, bot, greeting, buy_sub
+from config import dp, bot, greeting, buy_sub, instruction
 from aiogram.dispatcher.filters import Command
 from Database.Database import TablesModerate, Database
 import asyncio
@@ -29,13 +29,12 @@ async def inline_kb_answer_callback_handler(query: CallbackQuery):
     # await query.answer(f'You answered with {answer_data!r}')
 
     if answer_data == 'add_chat':
-        text = 'Добавить чат'
-        await bot.send_message(query.from_user.id, text)
+        await query.message.edit_text(text=_(instruction), reply_markup=buttons.add_chat())
     elif answer_data == 'buy_subscription':
-        await bot.send_message(query.from_user.id, _(buy_sub), reply_markup=buttons.chat_list())
+        await query.message.edit_text(text=_(buy_sub), reply_markup=buttons.chat_list())
     else:
         text = _(f'Не знаю что делать, возможно вы ошиблись в {answer_data!r}!')
-        await bot.send_message(query.from_user.id, text)
+        await query.message.edit_text(text=text)
 
 
 @dp.callback_query_handler(regexp='chat')

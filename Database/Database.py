@@ -27,6 +27,14 @@ class Database:
             ADMINS.append(i[1])
         return ADMINS
 
+    def get_chats(self):
+        CHAT_LIST = []
+        self.cur.execute('select * from chats')
+        chat_records = self.cur.fetchall()
+        for i in chat_records:
+            CHAT_LIST.append(i[1])
+        return CHAT_LIST
+
     def close(self):
         self.cur.close()
         self.conn.close()
@@ -48,10 +56,9 @@ class CreateTables:
             CREATE TABLE IF NOT EXISTS chats (
 
             id integer PRIMARY KEY NOT NULL,
-            id_chat_tg integer NOT NULL,
             chat_name text NOT NULL,
-            chat_description text NOT NULL,
-            chat_members integer NOT NULL)""")
+            subscription BOOLEAN,
+            subscription_length integer)""")
 
 
 class TablesModerate:

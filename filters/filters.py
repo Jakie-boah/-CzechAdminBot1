@@ -16,12 +16,11 @@ class SuperAdmin(BoundFilter):
     key = 'is_super_admin'
 
     async def check(self, message: Message) -> bool:
-        return message.from_user.id in list_super_admins
+        return str(message.from_user.id) in list_super_admins
 
 
 class IsAdmin(BoundFilter):
     key = "is_admin"
 
     async def check(self, message: Message) -> bool:
-        return message.from_user.id in Database().get_admins() or message.from_user.id in list_super_admins
-
+        return message.from_user.id in Database().get_admins()

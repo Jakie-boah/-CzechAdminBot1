@@ -5,6 +5,7 @@ from Database.Database import CreateTables
 import bot
 import handlers.subscription
 import handlers.mute_handler
+import handlers.SuperAdmin
 if __name__ == '__main__':
     CreateTables()
     dp.filters_factory.bind(SuperAdmin)
