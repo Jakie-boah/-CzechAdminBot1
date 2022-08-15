@@ -7,7 +7,7 @@ from Database.Database import Database
 
 def is_permitted():
 
-    @dp.message_handler(Text(contains=FORBIDDEN_WORDS, ignore_case=True))
+    @dp.message_handler(Text(equals=FORBIDDEN_WORDS, ignore_case=True))
     async def delete_forbidden_words(message: Message):
         await bot.delete_message(message.chat.id, message.message_id)
 

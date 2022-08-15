@@ -2,7 +2,7 @@ from aiogram.types import Message
 from i18.Localization import _
 from handlers.mute_config import MuteModerator
 from filters.filters import IsAdmin
-from config import dp
+from config import dp, bot
 from aiogram.dispatcher.filters import Command
 
 
@@ -14,9 +14,9 @@ async def ban(message: Message):
     if message.reply_to_message:
         try:
             condition = message.text.split()[1]
-            await message.reply('Начинаю бан')
-            await mute_mode.mute_for_sometime(message.chat.id, message.from_user.id, condition)
-            await message.reply(_(f'{message.from_user.full_name} забанен\n\nБан на {condition}'))
+            print(message.chat.id)
+            await mute_mode.mute_for_sometime(message.chat.id, message.reply_to_message.from_user['id'], condition)
+            await message.reply(_(f'Пидормот {message.reply_to_message.from_user["username"]} забанен\nБан на {condition}'))
         except IndexError:
             await message.reply(_('Упс, похоже вы ошиблись и добавили нужную информацию не полностью'))
     else:
@@ -26,8 +26,8 @@ async def ban(message: Message):
 @dp.message_handler(Command("unmute", prefixes='!'), IsAdmin())
 async def unmute(message: Message):
     if message.reply_to_message:
-        await mute_mode.unmute(message.chat.id, message.from_user.id)
-        await message.reply(_(f'Пользователь {message.from_user.full_name} разбанен'))
+        await mute_mode.unmute(message.chat.id, message.reply_to_message.from_user['id'])
+        await message.reply(_(f'Пользователь {message.reply_to_message.from_user["username"]} разбанен'))
     else:
         await message.reply(_("Вы должны применить команду на сообщение!"))
 

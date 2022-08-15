@@ -15,7 +15,7 @@ PASSWORD = os.getenv("PASSWORD")
 list_super_admins = os.getenv('list_super_admins')
 
 FORBIDDEN_WORDS = [
-    'Козел'
+    'Нахуй', 'козел'
 ]
 
 #Текстовые ассеты

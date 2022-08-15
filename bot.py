@@ -18,6 +18,7 @@ buttons = InlineButtons()
 
 @dp.message_handler(Command(['start', 'help'], prefixes='!/'))
 async def start(message: Message):
+    print()
     await message.answer(_(greeting), disable_web_page_preview=True, reply_markup=buttons.introduce())
     await message.delete()
 
