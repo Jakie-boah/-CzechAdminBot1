@@ -1,12 +1,12 @@
 from aiogram.types import Message, CallbackQuery
 from handlers.mute_config import MuteModerator
 from i18.Localization import _
-from filters.filters import SuperAdmin, is_permitted
+from filters.filters import is_permitted
 from config import dp, bot, greeting, buy_sub, instruction
 from aiogram.dispatcher.filters import Command
 from Database.Database import TablesModerate, Database
 import asyncio
-from handlers.genButton import genButton
+from setups.genButton import genButton
 from Keyboards_assets.InlineButtons import InlineButtons
 
 tables = TablesModerate()
@@ -31,6 +31,8 @@ async def inline_kb_answer_callback_handler(query: CallbackQuery):
 
     if answer_data == 'add_chat':
         await query.message.edit_text(text=_(instruction), reply_markup=buttons.add_chat())
+        print(query)
+
     elif answer_data == 'buy_subscription':
         await query.message.edit_text(text=_(buy_sub), reply_markup=buttons.chat_list())
     else:

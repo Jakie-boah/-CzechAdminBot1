@@ -78,7 +78,7 @@ class InlineButtons:
 
     def add_chat(self):
         markup = InlineKeyboardMarkup(row_width=1)
-        add = InlineKeyboardButton((_('Добавить')), url='https://t.me/A_not_herBot_bot?startgroup=c', callback_data='pay')
+        add = InlineKeyboardButton((_('Добавить')), url='https://t.me/A_not_herBot_bot?startgroup=c', callback_data='add')
         markup.add(add)
         return markup
 # https://t.me/all2all_bot?startgroup=c
