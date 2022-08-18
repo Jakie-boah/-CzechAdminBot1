@@ -55,8 +55,9 @@ class CreateTables:
         self.db.create("""
             CREATE TABLE IF NOT EXISTS chats (
 
-            id integer PRIMARY KEY NOT NULL,
+            id_chat_tg BIGINT PRIMARY KEY NOT NULL,
             chat_name text NOT NULL,
+            chat_members_count integer,
             subscription BOOLEAN,
             subscription_length integer)""")
 
@@ -71,11 +72,9 @@ class TablesModerate:
         VALUES (%s, %s);
         """, id_tg, privilege)
 
-    def add_new_chat(self):
+    def add_new_chat(self, id_chat_tg, chat_name, chat_members_count):
         self.db.insert("""
-        INSERT INTO chats (id_chat_tg, chat_name, chat_description, chat_members)
-        VALUES (%s, %s, %s, %s);
-        """, )
+        INSERT INTO chats (id_chat_tg, chat_name, chat_members_count)
+        VALUES (%s, %s, %s);
+        """, id_chat_tg, chat_name, chat_members_count)
 
-# Позже
-ALL_CHATS = []  # Массив со всеми айдишниками чатов для !massban

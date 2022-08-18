@@ -26,7 +26,7 @@ async def ban(message: Message):
 @dp.message_handler(Command("unmute", prefixes='!'), IsAdmin())
 async def unmute(message: Message):
     try:
-        await mute_mode.unmute_member(message)
+        await mute_mode.unmute_member(message.chat.id, message.reply_to_message.from_user['id'])
         await message.reply(f"Пользователь {message.reply_to_message.from_user['username']} размучен")
     except exceptions.BadRequest as ex:
         await message.answer("У меня не получилось это сделать", ex)

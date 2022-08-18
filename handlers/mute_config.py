@@ -20,14 +20,15 @@ Users_Premissions = ChatPermissions(
 class MuteModerator:
 
     async def mute_for_sometime(self, chat_id, user_id, time):
+
         await bot.restrict_chat_member(chat_id, user_id,
                                    permissions=Ban_Premissions,
                                    until_date=time)
 
-    async def unmute_member(self, message):
+    async def unmute_member(self, chat_id, user_id,):
 
-        await bot.restrict_chat_member(message.chat.id, message.reply_to_message.from_user['id'], permissions=Users_Premissions,
-                                        until_date=0)
+        await bot.restrict_chat_member(chat_id, user_id, permissions=Users_Premissions,
+                                       until_date=0)
 
     async def massban(self, user_id):
 

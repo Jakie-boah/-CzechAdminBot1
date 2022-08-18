@@ -8,7 +8,7 @@ from Database.Database import TablesModerate, Database
 import asyncio
 from setups.genButton import genButton
 from Keyboards_assets.InlineButtons import InlineButtons
-
+import handlers.add_chat
 tables = TablesModerate()
 mute_mode = MuteModerator()
 is_permitted()
@@ -18,7 +18,6 @@ buttons = InlineButtons()
 
 @dp.message_handler(Command(['start', 'help'], prefixes='!/'))
 async def start(message: Message):
-    print()
     await message.answer(_(greeting), disable_web_page_preview=True, reply_markup=buttons.introduce())
     await message.delete()
 
@@ -31,7 +30,6 @@ async def inline_kb_answer_callback_handler(query: CallbackQuery):
 
     if answer_data == 'add_chat':
         await query.message.edit_text(text=_(instruction), reply_markup=buttons.add_chat())
-        print(query)
 
     elif answer_data == 'buy_subscription':
         await query.message.edit_text(text=_(buy_sub), reply_markup=buttons.chat_list())

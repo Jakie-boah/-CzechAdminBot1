@@ -1,8 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from i18.Localization import _
 from Database.Database import Database
-#
-# CHAT_LIST = Database().get_chats()
+
 CHOSEN_CHAT = []
 
 
@@ -17,6 +16,11 @@ class InlineButtons:
     def chat_list(self):
         c = 0
         markup = InlineKeyboardMarkup(row_width=1)
+        if len(Database().get_chats()) == 0:
+            empty = InlineKeyboardButton((_('Вы пока еще не добавили ни одного чата')), callback_data='empty')
+            add_chat = InlineKeyboardButton((_('Добавить чат')), callback_data='add_chat')
+            markup.add(empty, add_chat)
+            return markup
         for i in Database().get_chats():
             markup.add(InlineKeyboardButton(i, callback_data=f'chat{c}'))
             c += 1

@@ -6,7 +6,6 @@ async def mute_date_calc(message: str) -> dict:
     command_parse = re.compile(r"(!ban|/ban) ?(\d+)? ?(\b(m|h|d|w)\b)?")
 
     parsed = command_parse.match(message)
-    print(parsed)
     time = parsed.group(2)
     unit = parsed.group(3)
 
