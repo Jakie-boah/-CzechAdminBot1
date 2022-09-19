@@ -16,6 +16,7 @@ async def f(message: Message):
     title = message.chat.title
     chat_members_count = await bot.get_chat_members_count(message.chat.id)
     tables.add_new_chat(id_chat_tg, title, chat_members_count)
+    await message.delete()
 
 
 

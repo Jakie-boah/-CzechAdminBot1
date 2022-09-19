@@ -55,7 +55,7 @@ class CreateTables:
             CREATE TABLE IF NOT EXISTS admin (
                 id serial PRIMARY KEY,
                 id_tg integer,
-                privilege integer
+                privilege integer,
                 can_mute BOOLEAN)
             """)
 
@@ -74,10 +74,14 @@ class TablesModerate:
         self.db = Database()
 
     def add_new_admin(self, id_tg, privilege):
+        global can_mute
+        if int(privilege) == 2:
+            can_mute = True
         self.db.insert("""
-        INSERT INTO admin (id_tg, privilege)
-        VALUES (%s, %s);
-        """, id_tg, privilege)
+        INSERT INTO admin (id_tg, privilege, can_mute)
+        VALUES (%s, %s, %s);
+        
+        """, id_tg, privilege, can_mute)
 
     def add_new_chat(self, id_chat_tg, chat_name, chat_members_count):
         self.db.insert("""

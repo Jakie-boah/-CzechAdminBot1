@@ -14,6 +14,8 @@ async def add_to_admins(message: Message):
         if int(message.text.split()[1]) in Database().get_admins():
             await message.reply(_(f"Юзер уже и так админ!\n\nСписок админов: {Database().get_admins()}"))
         else:
+            print(type(message.text.split()[2]))
+
             tables.add_new_admin(message.text.split()[1], message.text.split()[2])
             await message.reply(_(f"Админ успешно добавлен!\n\nСписок админов: {Database().get_admins()}"))
     except IndexError:

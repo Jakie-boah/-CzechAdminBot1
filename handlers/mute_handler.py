@@ -1,7 +1,7 @@
 from aiogram.types import Message
 from i18.Localization import _
 from handlers.mute_config import MuteModerator
-from filters.filters import IsAdmin, MuteAdmin
+from filters.filters import IsAdmin, MuteAdmin, SuperAdmin
 from config import dp, bot
 from aiogram.dispatcher.filters import Command
 from setups.mute_date import mute_date_calc
@@ -23,7 +23,7 @@ async def ban(message: Message):
         await message.reply("Вы должны применить команду на сообщение!")
 
 
-@dp.message_handler(Command("unmute", prefixes='!'), MuteAdmin())
+@dp.message_handler(Command("unmute", prefixes='!'), MuteAdmin(), SuperAdmin())
 async def unmute(message: Message):
     try:
         await mute_mode.unmute_member(message.chat.id, message.reply_to_message.from_user['id'])
