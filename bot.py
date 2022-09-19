@@ -40,10 +40,15 @@ async def inline_kb_answer_callback_handler(query: CallbackQuery):
 
 @dp.callback_query_handler(regexp='chat')
 async def choose(call: CallbackQuery):
-
+    print(call.data[-1])
     buttons.edit(int(call.data[-1]))
     await call.answer(cache_time=2)
     await call.message.edit_text(text=_(buy_sub), reply_markup=buttons.new_inline())
+
+
+@dp.callback_query_handler(regexp='cancel')
+async def choose(call: CallbackQuery):
+    await call.message.edit_text(_(greeting), disable_web_page_preview=True, reply_markup=buttons.introduce())
 
 
 @dp.message_handler(Command('report', prefixes='!'))

@@ -1,7 +1,7 @@
 from aiogram.types import Message
 from i18.Localization import _
 from handlers.mute_config import MuteModerator
-from filters.filters import IsAdmin
+from filters.filters import IsAdmin, MuteAdmin
 from config import dp, bot
 from aiogram.dispatcher.filters import Command
 from setups.mute_date import mute_date_calc
@@ -10,7 +10,7 @@ from aiogram.utils import exceptions
 mute_mode = MuteModerator()
 
 
-@dp.message_handler(Command("ban", prefixes='!'), IsAdmin())
+@dp.message_handler(Command("ban", prefixes='!'), MuteAdmin())
 async def ban(message: Message):
     if message.reply_to_message:
         try:
@@ -23,7 +23,7 @@ async def ban(message: Message):
         await message.reply("Вы должны применить команду на сообщение!")
 
 
-@dp.message_handler(Command("unmute", prefixes='!'), IsAdmin())
+@dp.message_handler(Command("unmute", prefixes='!'), MuteAdmin())
 async def unmute(message: Message):
     try:
         await mute_mode.unmute_member(message.chat.id, message.reply_to_message.from_user['id'])
@@ -32,7 +32,7 @@ async def unmute(message: Message):
         await message.answer("У меня не получилось это сделать", ex)
 
 
-@dp.message_handler(Command('massban', prefixes='!'), IsAdmin())
+@dp.message_handler(Command('massban', prefixes='!'), MuteAdmin())
 async def massban(message: Message):
     if message.reply_to_message:
         await mute_mode.massban(message.from_user.id)

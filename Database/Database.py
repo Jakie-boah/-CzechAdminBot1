@@ -27,6 +27,12 @@ class Database:
             ADMINS.append(i[1])
         return ADMINS
 
+    def admin_allow_to_mute(self):
+        self.cur.execute('select * from admin')
+        admin_permission = self.cur.fetchall()
+        for i in admin_permission:
+            return i[3]
+
     def get_chats(self):
         CHAT_LIST = []
         self.cur.execute('select * from chats')
@@ -49,7 +55,8 @@ class CreateTables:
             CREATE TABLE IF NOT EXISTS admin (
                 id serial PRIMARY KEY,
                 id_tg integer,
-                privilege integer)
+                privilege integer
+                can_mute BOOLEAN)
             """)
 
         self.db.create("""

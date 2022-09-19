@@ -16,7 +16,7 @@ class SuperAdmin(BoundFilter):
     key = 'is_super_admin'
 
     async def check(self, message: Message) -> bool:
-        return str(message.from_user.id) in list_super_admins
+        return message.from_user.id in list_super_admins
 
 
 class IsAdmin(BoundFilter):
@@ -24,3 +24,16 @@ class IsAdmin(BoundFilter):
 
     async def check(self, message: Message) -> bool:
         return message.from_user.id in Database().get_admins()
+#добавить рол плэй
+
+
+class MuteAdmin(BoundFilter):
+    key = 'can_ban_member'
+
+    async def check(self, message: Message) -> bool:
+        if message.from_user.id in Database().get_admins():
+            return Database().admin_allow_to_mute()
+        if message.from_user.id in Database().get_admins():
+            return True
+
+

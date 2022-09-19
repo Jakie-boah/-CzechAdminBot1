@@ -3,6 +3,8 @@ from i18.Localization import _
 from Database.Database import Database
 
 CHOSEN_CHAT = []
+CHATS = []
+CHAT_LIST = Database().get_chats()
 
 
 class InlineButtons:
@@ -18,7 +20,7 @@ class InlineButtons:
         markup = InlineKeyboardMarkup(row_width=1)
         if len(Database().get_chats()) == 0:
             empty = InlineKeyboardButton((_('Вы пока еще не добавили ни одного чата')), callback_data='empty')
-            add_chat = InlineKeyboardButton((_('Добавить чат')), callback_data='add_chat')
+            add_chat = InlineKeyboardButton((_('Добавить чат')), callback_data='empty')
             markup.add(empty, add_chat)
             return markup
         for i in Database().get_chats():
@@ -30,20 +32,31 @@ class InlineButtons:
 
     def edit(self, number):
         c = 0
-        for i in Database().get_chats():
+        for i in CHAT_LIST:
             if c == number:
-                cur = Database().get_chats()[number]
-                if cur.split()[0] == '✅':
-                    pass
-                else:
-                    Database().get_chats()[number] = '✅ ' + cur
-                    CHOSEN_CHAT.append(Database().get_chats()[number])
+                cur = Database().get_chats()[number].split()
+                # if cur.split()[0] == '✅':
+                #     cur.pop(0)
+                # else:
+                v = 0
+                cure = ''
+                for i in cur:
+                    if v == 0:
+                        cure = '✅ ' + i
+                        v += 1
+                    else:
+                        cure += ' ' + i
+                CHAT_LIST[number] = cure
+                CHOSEN_CHAT.append(CHAT_LIST[number])
+                CHATS.append(cure)
+            else:
+                CHATS.append(i)
             c += 1
 
     def new_inline(self):
         markup = InlineKeyboardMarkup(row_width=1)
         c = 0
-        for k in Database().get_chats():
+        for k in CHAT_LIST:
 
             if k.split()[0] == '✅':
                 markup.add(InlineKeyboardButton(k, callback_data=f'chosen_chat{c}'))
@@ -63,7 +76,8 @@ class InlineButtons:
         for_90 = InlineKeyboardButton((_('90 дней')), callback_data='for_90')
         for_180 = InlineKeyboardButton((_('180 дней')), callback_data='for_180')
         for_365 = InlineKeyboardButton((_('365 дней')), callback_data='for_365')
-        markup.add(for_30, for_90, for_180, for_365)
+        cancel = InlineKeyboardButton((_('Отменить')), callback_data='cancel')
+        markup.add(for_30, for_90, for_180, for_365, cancel)
         return markup
 
     def confirm(self):
@@ -83,6 +97,7 @@ class InlineButtons:
     def add_chat(self):
         markup = InlineKeyboardMarkup(row_width=1)
         add = InlineKeyboardButton((_('Добавить')), url='https://t.me/A_not_herBot_bot?startgroup=c', callback_data='add')
-        markup.add(add)
+        cancel = InlineKeyboardButton((_('Отменить')), callback_data='cancel')
+        markup.add(add, cancel)
         return markup
 # https://t.me/all2all_bot?startgroup=c
